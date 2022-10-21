@@ -1,0 +1,45 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+# 导入和检查数据
+data = pd.read_excel(r'C:\Users\YWF\Desktop\center.xlsx', sheet_name = 5)
+data
+
+#矩形图绘制与储存
+sns.heatmap(data,cmap="RdBu_r",square=True,center=0)
+plt.savefig("SZcenter2.svg", format="svg")
+
+#线状图绘制与储存
+sns.set_style("darkgrid")
+sns.pointplot(x="State", y="Mean dwell time (windows)", hue="Group",data=data,dodge=True, palette=sns.color_palette('Wistia_r'), order=["State 1", "State 2"])
+plt.savefig("verify-mean dwell time.svg", format="svg")
+
+#柱状图绘制与储存
+sns.set_style("darkgrid")
+sns.barplot(x="Group", y="Number of transitions", data=data, capsize=.05, palette=sns.color_palette('Wistia_r'))
+plt.savefig("verify-Number of transitions.svg", format="svg")
+
+sns.set_style("darkgrid")
+g = sns.catplot(kind="bar", x="State", y="Fractional time (%)", hue = "Group", data=data, capsize=.05, palette=sns.color_palette('Wistia_r'),order=["State 1", "State 2"])
+g.set(ylim=(0, 100))
+plt.savefig("verify-Fractional time.svg", format="svg")
+
+
+#小提琴图绘制与存储
+sns.set_style("darkgrid")
+sns.violinplot(x="group", y="Coefficient of variation", data=data, palette="Set2")
+plt.savefig("EC-253.svg", format="svg")
+
+#多层箱图
+sns.set_style("darkgrid")
+g=sns.catplot(kind="boxen", x="Group", y="Coefficient of variation", data=data, palette=sns.color_palette('Wistia_r'), order=["SZ", "HC"])
+g.set(ylim=(0, 3.5))
+plt.savefig("EC-108.svg", format="svg")
+
+#线性相关图绘制与存储
+sns.set_style("darkgrid")
+g=sns.regplot(data= data,x="Coefficient of variation", y="PANSS total scores", color="steelblue")
+g.set(ylim=(30, 210))
+plt.savefig("corr-EC-PANSSts.svg", format="svg")
