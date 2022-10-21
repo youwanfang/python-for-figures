@@ -1,0 +1,43 @@
+# 安装pygal
+pip install pygal
+
+# 导入pygal库
+import pygal
+
+#创建雷达图
+radar_chart = pygal.Radar()
+#图片命名
+radar_chart.title = 'V8 benchmark results'
+#逆时针命名坐标轴
+radar_chart.x_labels = ['Richards', 'DeltaBlue', 'Crypto', 'RayTrace', 'EarleyBoyer', 'RegExp', 'Splay', 'NavierStokes']
+
+#添加数据
+radar_chart.add('Chrome', [6395, 8212, 7520, 7218, 12464, 1660, 2123, 8607])
+radar_chart.add('Firefox', [7473, 8099, 11700, 2651, 6361, 1044, 3797, 9450])
+radar_chart.add('Opera', [3472, 2933, 4203, 5229, 5810, 1828, 9013, 4669])
+radar_chart.add('IE', [43, 41, 59, 79, 144, 136, 34, 102])
+
+ 
+#设置pygal与jupyter notebook交互
+from IPython.display import display, HTML
+base_html = """
+<!DOCTYPE html>
+<html>
+  <head>
+  <script type="text/javascript" src="http://kozea.github.com/pygal.js/javascripts/svg.jquery.js"></script>
+  <script type="text/javascript" src="https://kozea.github.io/pygal.js/2.0.x/pygal-tooltips.min.js""></script>
+  </head>
+  <body>
+    <figure>
+      {rendered_chart}
+    </figure>
+  </body>
+</html>
+
+"""
+
+#图片渲染
+HTML(base_html.format(rendered_chart=radar_chart.render(is_unicode=True)))
+
+#导出储存
+radar_chart.render_to_file('radar.svg')
